@@ -1,0 +1,330 @@
+about:
+  date: October 19, 2024 21:26:03
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 9
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Admin:
+    attributes:
+    - label: ' username*'
+      name: username
+      required: true
+      search: true
+      sort: true
+    - name: id
+    - name: password
+      required: true
+    description: Table containing information for admin users to access the backend
+      panel.
+    info_list: Table containing information for admin users to access the backend
+      panel.
+    type: Admin
+    user_key: username
+  Investment:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: description
+    - name: risk_level
+      required: true
+    - name: expected_return_percentage
+      required: true
+    - name: id
+    description: Table representing different types of investments available.
+    info_list: Table representing different types of investments available.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - investment_id
+      name: InvestmentAnalyseList
+      resource: InvestmentAnalyse
+    - direction: tomany
+      fks:
+      - investment_id
+      name: InvestmentRiskAssessmentList
+      resource: InvestmentRiskAssessment
+    - direction: tomany
+      fks:
+      - investment_id
+      name: PortfolioInvestmentList
+      resource: PortfolioInvestment
+    type: Investment
+    user_key: name
+  InvestmentAnalyse:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: investment_id
+      required: true
+    - name: report_url
+      required: true
+    - name: analysis_date
+    description: Table for storing detailed reports and analyses on investments.
+    info_list: Table for storing detailed reports and analyses on investments.
+    tab_groups:
+    - direction: toone
+      fks:
+      - investment_id
+      name: investment
+      resource: Investment
+    type: InvestmentAnalyse
+    user_key: id
+  InvestmentRiskAssessment:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: investment_id
+      required: true
+    - name: assessment_date
+    - name: risk_score
+      required: true
+    description: Table assessing the risk of each investment.
+    info_list: Table assessing the risk of each investment.
+    tab_groups:
+    - direction: toone
+      fks:
+      - investment_id
+      name: investment
+      resource: Investment
+    type: InvestmentRiskAssessment
+    user_key: id
+  MarketNew:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: title
+      required: true
+    - name: content
+      required: true
+    - name: published_date
+    description: Table for storing latest market news that could impact investments.
+    info_list: Table for storing latest market news that could impact investments.
+    type: MarketNew
+    user_key: id
+  Portfolio:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: user_id
+      required: true
+    - name: id
+    description: Table that holds investor portfolios containing various investments.
+    info_list: Table that holds investor portfolios containing various investments.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - portfolio_id
+      name: PortfolioInvestmentList
+      resource: PortfolioInvestment
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: Portfolio
+    user_key: name
+  PortfolioInvestment:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: investment_id
+      required: true
+    - name: portfolio_id
+      required: true
+    - name: investment_amount
+      required: true
+    - name: purchase_date
+    description: Junction table mapping portfolios to their investments.
+    info_list: Junction table mapping portfolios to their investments.
+    tab_groups:
+    - direction: toone
+      fks:
+      - investment_id
+      name: investment
+      resource: Investment
+    - direction: toone
+      fks:
+      - portfolio_id
+      name: portfolio
+      resource: Portfolio
+    type: PortfolioInvestment
+    user_key: id
+  SubscriptionPlan:
+    attributes:
+    - label: ' plan_name*'
+      name: plan_name
+      required: true
+      search: true
+      sort: true
+    - name: price
+      required: true
+    - name: duration_days
+      required: true
+    - name: id
+    description: Table for managing subscription plans available to users.
+    info_list: Table for managing subscription plans available to users.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - subscription_plan_id
+      name: UserSubscriptionList
+      resource: UserSubscription
+    type: SubscriptionPlan
+    user_key: plan_name
+  Transaction:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: user_id
+      required: true
+    - name: transaction_date
+    - name: amount
+      required: true
+    - name: transaction_type
+      required: true
+    description: Table that records financial transactions of users.
+    info_list: Table that records financial transactions of users.
+    tab_groups:
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: Transaction
+    user_key: id
+  User:
+    attributes:
+    - label: ' username*'
+      name: username
+      required: true
+      search: true
+      sort: true
+    - name: email
+      required: true
+    - name: id
+    - name: password
+      required: true
+    description: Table storing user information.
+    info_list: Table storing user information.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - user_id
+      name: PortfolioList
+      resource: Portfolio
+    - direction: tomany
+      fks:
+      - user_id
+      name: TransactionList
+      resource: Transaction
+    - direction: tomany
+      fks:
+      - user_id
+      name: UserFeedbackList
+      resource: UserFeedback
+    - direction: tomany
+      fks:
+      - user_id
+      name: UserSubscriptionList
+      resource: UserSubscription
+    type: User
+    user_key: username
+  UserFeedback:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: user_id
+    - name: feedback_text
+      required: true
+    - name: submitted_on
+    description: Table that stores feedback from users regarding their experience.
+    info_list: Table that stores feedback from users regarding their experience.
+    tab_groups:
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: UserFeedback
+    user_key: id
+  UserSubscription:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: subscription_plan_id
+      required: true
+    - name: user_id
+      required: true
+    - name: start_date
+    - name: end_date
+      required: true
+    description: Table linking users to their subscription plans.
+    info_list: Table linking users to their subscription plans.
+    tab_groups:
+    - direction: toone
+      fks:
+      - subscription_plan_id
+      name: subscription_plan
+      resource: SubscriptionPlan
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: UserSubscription
+    user_key: id
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

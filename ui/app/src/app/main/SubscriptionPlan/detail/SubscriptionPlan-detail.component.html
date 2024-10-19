@@ -1,0 +1,91 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="plan_name" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="SubscriptionPlan_form_edit" 
+        service="SubscriptionPlan" 
+        entity="SubscriptionPlan" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;I;U;D"
+        #oDetailForm keys="id" 
+        keys-sql-types="INTEGER" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-text-input #plan_name attr="plan_name" label=" plan_name*" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-text-input #price attr="price" label="price" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-integer-input #duration_days attr="duration_days" label="duration_days" type="integer" editable="no" required="yes" ></o-integer-input>
+      
+      <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="no" ></o-integer-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="USERSUBSCRIPTION-subscription_plan_id">
+    <div layout-padding>
+      <o-table 
+        attr="UserSubscriptionTable" 
+        service="UserSubscription" 
+        entity="UserSubscription" 
+        keys="id"
+        parent-keys="subscription_plan_id:id"
+        columns="id;subscription_plan_id;user_id;start_date;end_date"  
+        horizontal-scroll="yes"
+        detail-form-route="UserSubscription" 
+        edit-form-route="UserSubscription"
+        visible-columns="id;subscription_plan_id;user_id;start_date;end_date"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="subscription_plan_id" title="subscription_plan_id">
+    <o-table-cell-renderer-service attr="subscription_plan_id" 
+        service="SubscriptionPlan" entity="SubscriptionPlanType" columns="id;plan_name"
+        parent-keys="id:subscription_plan_id"
+        value-column="plan_name" keys="subscription_plan_id"
+        visible-columns="plan_name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="user_id" title="user_id">
+    <o-table-cell-renderer-service attr="user_id" 
+        service="User" entity="UserType" columns="id;username"
+        parent-keys="id:user_id"
+        value-column="username" keys="user_id"
+        visible-columns="username" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-date-input #start_date attr="start_date" type="timestamp" label="start_date" editable="no" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+        
+          <o-date-input #end_date attr="end_date" type="timestamp" label="end_date" editable="no" required="yes" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>

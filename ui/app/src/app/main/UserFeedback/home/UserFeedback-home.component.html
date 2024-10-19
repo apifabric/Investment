@@ -1,0 +1,44 @@
+<o-form-layout-manager attr="UserFeedback" mode="tab" title="USERFEEDBACK">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="UserFeedbackTable" 
+            service="UserFeedback" 
+            entity="UserFeedback" 
+            title="USERFEEDBACK"
+            keys="id"
+            columns="id;user_id;feedback_text;submitted_on" 
+            header-actions="R;D"
+            visible-columns="id;user_id;feedback_text;submitted_on"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="user_id" title="user_id">
+    <o-table-cell-renderer-service attr="user_id" 
+        service="User" entity="UserType" columns="id;username"
+        parent-keys="id:user_id"
+        value-column="username" keys="user_id"
+        visible-columns="username" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column #feedback_text attr="feedback_text" title="feedback_text" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-date-input #submitted_on attr="submitted_on" type="date" label="submitted_on" enabled="yes" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

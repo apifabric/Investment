@@ -1,0 +1,1 @@
+Error creating database from model: 'portfolio' is an invalid keyword argument for PortfolioInvestment

@@ -1,0 +1,508 @@
+about:
+  date: October 19, 2024 21:26:03
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+entities:
+  Admin:
+    columns:
+    - label: ' username*'
+      name: username
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    - name: password
+      required: true
+      template: text
+      type: VARCHAR
+    description: Table containing information for admin users to access the backend
+      panel.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: username
+    home_template: home_template.html
+    info_list: Table containing information for admin users to access the backend
+      panel.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    type: Admin
+  Investment:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: description
+      template: text
+      type: TEXT
+    - name: risk_level
+      required: true
+      template: text
+      type: VARCHAR
+    - name: expected_return_percentage
+      required: true
+      template: real
+      type: FLOAT
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table representing different types of investments available.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table representing different types of investments available.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - investment_id
+      name: InvestmentAnalyseList
+      resource: InvestmentAnalyse
+    - direction: tomany
+      fks:
+      - investment_id
+      name: InvestmentRiskAssessmentList
+      resource: InvestmentRiskAssessment
+    - direction: tomany
+      fks:
+      - investment_id
+      name: PortfolioInvestmentList
+      resource: PortfolioInvestment
+    type: Investment
+  InvestmentAnalyse:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: investment_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: report_url
+      required: true
+      template: text
+      type: VARCHAR
+    - name: analysis_date
+      template: date
+      type: DATETIME
+    description: Table for storing detailed reports and analyses on investments.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table for storing detailed reports and analyses on investments.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - investment_id
+      name: investment
+      resource: Investment
+    type: InvestmentAnalyse
+  InvestmentRiskAssessment:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: investment_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: assessment_date
+      template: date
+      type: DATETIME
+    - name: risk_score
+      required: true
+      template: integer
+      type: INTEGER
+    description: Table assessing the risk of each investment.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table assessing the risk of each investment.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - investment_id
+      name: investment
+      resource: Investment
+    type: InvestmentRiskAssessment
+  MarketNew:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: title
+      required: true
+      template: text
+      type: VARCHAR
+    - name: content
+      required: true
+      template: text
+      type: TEXT
+    - name: published_date
+      template: date
+      type: DATETIME
+    description: Table for storing latest market news that could impact investments.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table for storing latest market news that could impact investments.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    type: MarketNew
+  Portfolio:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: user_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table that holds investor portfolios containing various investments.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table that holds investor portfolios containing various investments.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - portfolio_id
+      name: PortfolioInvestmentList
+      resource: PortfolioInvestment
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: Portfolio
+  PortfolioInvestment:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: investment_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: portfolio_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: investment_amount
+      required: true
+      template: real
+      type: FLOAT
+    - name: purchase_date
+      template: date
+      type: DATETIME
+    description: Junction table mapping portfolios to their investments.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Junction table mapping portfolios to their investments.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - investment_id
+      name: investment
+      resource: Investment
+    - direction: toone
+      fks:
+      - portfolio_id
+      name: portfolio
+      resource: Portfolio
+    type: PortfolioInvestment
+  SubscriptionPlan:
+    columns:
+    - label: ' plan_name*'
+      name: plan_name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: price
+      required: true
+      template: real
+      type: FLOAT
+    - name: duration_days
+      required: true
+      template: integer
+      type: INTEGER
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table for managing subscription plans available to users.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: plan_name
+    home_template: home_template.html
+    info_list: Table for managing subscription plans available to users.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - subscription_plan_id
+      name: UserSubscriptionList
+      resource: UserSubscription
+    type: SubscriptionPlan
+  Transaction:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: user_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: transaction_date
+      template: date
+      type: DATETIME
+    - name: amount
+      required: true
+      template: real
+      type: FLOAT
+    - name: transaction_type
+      required: true
+      template: text
+      type: VARCHAR
+    description: Table that records financial transactions of users.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table that records financial transactions of users.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: Transaction
+  User:
+    columns:
+    - label: ' username*'
+      name: username
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: email
+      required: true
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    - name: password
+      required: true
+      template: text
+      type: VARCHAR
+    description: Table storing user information.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: username
+    home_template: home_template.html
+    info_list: Table storing user information.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - user_id
+      name: PortfolioList
+      resource: Portfolio
+    - direction: tomany
+      fks:
+      - user_id
+      name: TransactionList
+      resource: Transaction
+    - direction: tomany
+      fks:
+      - user_id
+      name: UserFeedbackList
+      resource: UserFeedback
+    - direction: tomany
+      fks:
+      - user_id
+      name: UserSubscriptionList
+      resource: UserSubscription
+    type: User
+  UserFeedback:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: user_id
+      template: integer
+      type: INTEGER
+    - name: feedback_text
+      required: true
+      template: text
+      type: TEXT
+    - name: submitted_on
+      template: date
+      type: DATETIME
+    description: Table that stores feedback from users regarding their experience.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table that stores feedback from users regarding their experience.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: UserFeedback
+  UserSubscription:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: subscription_plan_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: user_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: start_date
+      template: date
+      type: DATETIME
+    - name: end_date
+      required: true
+      template: date
+      type: DATETIME
+    description: Table linking users to their subscription plans.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table linking users to their subscription plans.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - subscription_plan_id
+      name: subscription_plan
+      resource: SubscriptionPlan
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: UserSubscription
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: false

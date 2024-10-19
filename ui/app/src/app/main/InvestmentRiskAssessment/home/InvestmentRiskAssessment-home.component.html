@@ -1,0 +1,44 @@
+<o-form-layout-manager attr="InvestmentRiskAssessment" mode="tab" title="INVESTMENTRISKASSESSMENT">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="InvestmentRiskAssessmentTable" 
+            service="InvestmentRiskAssessment" 
+            entity="InvestmentRiskAssessment" 
+            title="INVESTMENTRISKASSESSMENT"
+            keys="id"
+            columns="id;investment_id;assessment_date;risk_score" 
+            header-actions="R;D"
+            visible-columns="id;investment_id;assessment_date;risk_score"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="investment_id" title="investment_id">
+    <o-table-cell-renderer-service attr="investment_id" 
+        service="Investment" entity="InvestmentType" columns="id;name"
+        parent-keys="id:investment_id"
+        value-column="name" keys="investment_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-date-input #assessment_date attr="assessment_date" type="timestamp" label="assessment_date" editable="no" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+            
+            <o-table-column #risk_score attr="risk_score" title="risk_score" type="integer" editable="no" required="yes" content-align="center"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

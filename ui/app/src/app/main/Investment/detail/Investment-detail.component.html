@@ -1,0 +1,189 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="name" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="Investment_form_edit" 
+        service="Investment" 
+        entity="Investment" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;I;U;D"
+        #oDetailForm keys="id" 
+        keys-sql-types="INTEGER" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-text-input #name attr="name" label=" name*" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-text-input #description attr="description" label="description" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-text-input #risk_level attr="risk_level" label="risk_level" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-text-input #expected_return_percentage attr="expected_return_percentage" label="expected_return_percentage" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="no" ></o-integer-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="INVESTMENTANALYSE-investment_id">
+    <div layout-padding>
+      <o-table 
+        attr="InvestmentAnalyseTable" 
+        service="InvestmentAnalyse" 
+        entity="InvestmentAnalyse" 
+        keys="id"
+        parent-keys="investment_id:id"
+        columns="id;investment_id;report_url;analysis_date"  
+        horizontal-scroll="yes"
+        detail-form-route="InvestmentAnalyse" 
+        edit-form-route="InvestmentAnalyse"
+        visible-columns="id;investment_id;report_url;analysis_date"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="investment_id" title="investment_id">
+    <o-table-cell-renderer-service attr="investment_id" 
+        service="Investment" entity="InvestmentType" columns="id;name"
+        parent-keys="id:investment_id"
+        value-column="name" keys="investment_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #report_url attr="report_url" title="report_url" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-date-input #analysis_date attr="analysis_date" type="timestamp" label="analysis_date" editable="no" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="INVESTMENTRISKASSESSMENT-investment_id">
+    <div layout-padding>
+      <o-table 
+        attr="InvestmentRiskAssessmentTable" 
+        service="InvestmentRiskAssessment" 
+        entity="InvestmentRiskAssessment" 
+        keys="id"
+        parent-keys="investment_id:id"
+        columns="id;investment_id;assessment_date;risk_score"  
+        horizontal-scroll="yes"
+        detail-form-route="InvestmentRiskAssessment" 
+        edit-form-route="InvestmentRiskAssessment"
+        visible-columns="id;investment_id;assessment_date;risk_score"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="investment_id" title="investment_id">
+    <o-table-cell-renderer-service attr="investment_id" 
+        service="Investment" entity="InvestmentType" columns="id;name"
+        parent-keys="id:investment_id"
+        value-column="name" keys="investment_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-date-input #assessment_date attr="assessment_date" type="timestamp" label="assessment_date" editable="no" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+        
+          <o-table-column #risk_score attr="risk_score" title="risk_score" type="integer" editable="no" required="yes" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="PORTFOLIOINVESTMENT-investment_id">
+    <div layout-padding>
+      <o-table 
+        attr="PortfolioInvestmentTable" 
+        service="PortfolioInvestment" 
+        entity="PortfolioInvestment" 
+        keys="id"
+        parent-keys="investment_id:id"
+        columns="id;investment_id;portfolio_id;investment_amount;purchase_date"  
+        horizontal-scroll="yes"
+        detail-form-route="PortfolioInvestment" 
+        edit-form-route="PortfolioInvestment"
+        visible-columns="id;investment_id;portfolio_id;investment_amount;purchase_date"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="investment_id" title="investment_id">
+    <o-table-cell-renderer-service attr="investment_id" 
+        service="Investment" entity="InvestmentType" columns="id;name"
+        parent-keys="id:investment_id"
+        value-column="name" keys="investment_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="portfolio_id" title="portfolio_id">
+    <o-table-cell-renderer-service attr="portfolio_id" 
+        service="Portfolio" entity="PortfolioType" columns="id;name"
+        parent-keys="id:portfolio_id"
+        value-column="name" keys="portfolio_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #investment_amount attr="investment_amount" title="investment_amount" type="currency" editable="no" required="yes" currency-symbol="$" currency-symbol-position="left" thousand-separator=","decimal-separator="."></o-table-column>
+        
+          <o-date-input #purchase_date attr="purchase_date" type="timestamp" label="purchase_date" editable="no" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>

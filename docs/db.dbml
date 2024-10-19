@@ -1,0 +1,101 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+
+Table Admin {
+    id INTEGER [primary key]
+    username VARCHAR 
+    password VARCHAR 
+    }
+
+Table Investment {
+    id INTEGER [primary key]
+    name VARCHAR 
+    description TEXT 
+    risk_level VARCHAR 
+    expected_return_percentage FLOAT 
+    }
+
+Table InvestmentAnalyse {
+    id INTEGER [primary key]
+    investment_id INTEGER 
+    report_url VARCHAR 
+    analysis_date DATETIME 
+    }
+
+Table InvestmentRiskAssessment {
+    id INTEGER [primary key]
+    investment_id INTEGER 
+    assessment_date DATETIME 
+    risk_score INTEGER 
+    }
+
+Table MarketNew {
+    id INTEGER [primary key]
+    title VARCHAR 
+    content TEXT 
+    published_date DATETIME 
+    }
+
+Table Portfolio {
+    id INTEGER [primary key]
+    user_id INTEGER 
+    name VARCHAR 
+    }
+
+Table User {
+    id INTEGER [primary key]
+    username VARCHAR 
+    email VARCHAR 
+    password VARCHAR 
+    }
+
+Table PortfolioInvestment {
+    id INTEGER [primary key]
+    portfolio_id INTEGER 
+    investment_id INTEGER 
+    investment_amount FLOAT 
+    purchase_date DATETIME 
+    }
+
+Table SubscriptionPlan {
+    id INTEGER [primary key]
+    plan_name VARCHAR 
+    price FLOAT 
+    duration_days INTEGER 
+    }
+
+Table Transaction {
+    id INTEGER [primary key]
+    user_id INTEGER 
+    transaction_date DATETIME 
+    amount FLOAT 
+    transaction_type VARCHAR 
+    }
+
+Table UserFeedback {
+    id INTEGER [primary key]
+    user_id INTEGER 
+    feedback_text TEXT 
+    submitted_on DATETIME 
+    }
+
+Table UserSubscription {
+    id INTEGER [primary key]
+    user_id INTEGER 
+    subscription_plan_id INTEGER 
+    start_date DATETIME 
+    end_date DATETIME 
+    }
+
+
+
+// Relationships
+    Ref: InvestmentAnalyse.(investment_id) < Investment.(id)
+    Ref: InvestmentRiskAssessment.(investment_id) < Investment.(id)
+    Ref: Portfolio.(user_id) < User.(id)
+    Ref: PortfolioInvestment.(investment_id) < Investment.(id)
+    Ref: PortfolioInvestment.(portfolio_id) < Portfolio.(id)
+    Ref: Transaction.(user_id) < User.(id)
+    Ref: UserFeedback.(user_id) < User.(id)
+    Ref: UserSubscription.(subscription_plan_id) < SubscriptionPlan.(id)
+    Ref: UserSubscription.(user_id) < User.(id)
